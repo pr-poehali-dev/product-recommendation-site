@@ -2,82 +2,82 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  rating: number;
-  price: string;
-  image: string;
-  tags: string[];
-}
-
-const mockProducts: Product[] = [
+const plans = [
   {
-    id: 1,
-    title: "Smart Fitness Tracker",
-    description: "Отслеживает активность, сон и здоровье с точностью до мелочей",
-    category: "Здоровье",
-    rating: 4.8,
-    price: "4 990 ₽",
-    image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=200&fit=crop",
-    tags: ["Популярное", "Новинка"]
+    name: "Базовый",
+    price: "199 ₽/мес",
+    features: ["1 устройство", "100+ серверов", "Базовая поддержка", "Без логов"],
+    popular: false
   },
   {
-    id: 2,
-    title: "Беспроводные наушники",
-    description: "Премиальное качество звука с активным шумоподавлением",
-    category: "Аудио",
-    rating: 4.9,
-    price: "8 990 ₽",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop",
-    tags: ["Топ выбор", "Премиум"]
+    name: "Стандарт",
+    price: "349 ₽/мес", 
+    features: ["5 устройств", "500+ серверов", "24/7 поддержка", "Без логов", "Kill Switch"],
+    popular: true
   },
   {
-    id: 3,
-    title: "Умная колонка",
-    description: "Голосовой помощник для умного дома с отличным звуком",
-    category: "Умный дом",
-    rating: 4.7,
-    price: "6 490 ₽",
-    image: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=300&h=200&fit=crop",
-    tags: ["Рекомендуем"]
+    name: "Премиум",
+    price: "599 ₽/мес",
+    features: ["10 устройств", "1000+ серверов", "Приоритетная поддержка", "Без логов", "Kill Switch", "Выделенный IP"],
+    popular: false
   }
 ];
 
-const categories = ["Все", "Здоровье", "Аудио", "Умный дом", "Техника"];
+const features = [
+  {
+    icon: "Shield",
+    title: "Безопасные покупки",
+    description: "Защищенные транзакции в интернет-магазинах мира"
+  },
+  {
+    icon: "Globe",
+    title: "Доступ к сайтам",
+    description: "Обход блокировок и доступ к любимым сервисам"
+  },
+  {
+    icon: "Zap",
+    title: "Высокая скорость",
+    description: "Быстрое соединение без замедления интернета"
+  },
+  {
+    icon: "Eye",
+    title: "Полная анонимность",
+    description: "Ваша активность не отслеживается и не записывается"
+  }
+];
+
+const countries = [
+  { name: "США", count: 120, flag: "🇺🇸" },
+  { name: "Германия", count: 85, flag: "🇩🇪" },
+  { name: "Великобритания", count: 65, flag: "🇬🇧" },
+  { name: "Япония", count: 45, flag: "🇯🇵" },
+  { name: "Канада", count: 35, flag: "🇨🇦" },
+  { name: "Нидерланды", count: 55, flag: "🇳🇱" }
+];
 
 export default function Index() {
-  const [selectedCategory, setSelectedCategory] = useState("Все");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const filteredProducts = mockProducts.filter(product => {
-    const matchesCategory = selectedCategory === "Все" || product.category === selectedCategory;
-    const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const [selectedPlan, setSelectedPlan] = useState("Стандарт");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mint/20 via-white to-turquoise/10">
+    <div className="min-h-screen bg-darker text-white">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50">
+      <header className="bg-dark/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-coral to-turquoise rounded-lg flex items-center justify-center">
-                <Icon name="Sparkles" size={20} className="text-white" />
+              <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
+                <Icon name="Shield" size={20} className="text-white" />
               </div>
-              <h1 className="text-xl font-bold text-navy">RecommendMe</h1>
+              <h1 className="text-xl font-bold text-white">SecureVPN</h1>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm">
-                <Icon name="User" size={16} className="mr-2" />
-                Профиль
+              <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
+                Войти
+              </Button>
+              <Button size="sm" className="bg-primary hover:bg-primary/90">
+                Попробовать
               </Button>
             </div>
           </div>
@@ -85,161 +85,307 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
-            Персональные рекомендации
-            <span className="block text-coral">для вас</span>
-          </h2>
-          <p className="text-lg text-gray-600 mb-8">
-            Найдите идеальные продукты на основе ваших предпочтений и интересов. 
-            Наш ИИ анализирует тысячи товаров, чтобы предложить именно то, что вам нужно.
-          </p>
+      <section className="container mx-auto px-4 py-16">
+        <div className="text-center max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6">
+            <Icon name="Shield" size={16} />
+            <span className="text-sm font-medium">Защищенный интернет для всех</span>
+          </div>
           
-          {/* Search Bar */}
-          <div className="relative max-w-md mx-auto mb-8">
-            <Icon name="Search" size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <Input
-              placeholder="Поиск товаров..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 py-3 text-center rounded-full border-2 focus:border-coral"
-            />
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            Безопасные покупки и 
+            <span className="block text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text">
+              доступ к любым сайтам
+            </span>
+          </h1>
+          
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Покупайте в зарубежных магазинах, получайте доступ к заблокированным сервисам 
+            и защищайте свои данные с помощью надежного VPN
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
+              <Icon name="Download" size={20} className="mr-2" />
+              Скачать приложение
+            </Button>
+            <Button variant="outline" size="lg" className="border-gray-600 text-white hover:bg-white/10">
+              <Icon name="Play" size={20} className="mr-2" />
+              Смотреть демо
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <div className="text-2xl font-bold text-primary mb-1">1000+</div>
+              <div className="text-sm text-gray-400">Серверов</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-secondary mb-1">65</div>
+              <div className="text-sm text-gray-400">Стран</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-primary mb-1">99.9%</div>
+              <div className="text-sm text-gray-400">Доступность</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-secondary mb-1">24/7</div>
+              <div className="text-sm text-gray-400">Поддержка</div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="container mx-auto px-4 mb-8">
-        <div className="flex flex-wrap justify-center gap-2">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              variant={selectedCategory === category ? "default" : "outline"}
-              className={`rounded-full px-6 transition-all duration-200 ${
-                selectedCategory === category
-                  ? "bg-coral hover:bg-coral/90 text-white"
-                  : "hover:bg-coral/10 hover:border-coral"
-              }`}
-            >
-              {category}
-            </Button>
-          ))}
+      {/* Features */}
+      <section className="py-16 bg-dark/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Почему выбирают нас</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Современные технологии защиты и глобальная сеть серверов для вашего комфорта
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <Card key={index} className="bg-dark border-gray-700 hover:border-primary/50 transition-colors">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <Icon name={feature.icon as any} size={24} className="text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 text-white">{feature.title}</h3>
+                  <p className="text-gray-400 text-sm">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Recommendations Grid */}
-      <section className="container mx-auto px-4 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <Card 
-              key={product.id} 
-              className="group hover:shadow-lg transition-all duration-300 hover:scale-105 border-0 shadow-md bg-white/70 backdrop-blur-sm overflow-hidden"
-            >
-              <div className="relative">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute top-3 right-3 flex flex-col gap-1">
-                  {product.tags.map((tag) => (
-                    <Badge 
-                      key={tag} 
-                      className={`text-xs ${
-                        tag === "Популярное" ? "bg-coral text-white" :
-                        tag === "Топ выбор" ? "bg-turquoise text-white" :
-                        tag === "Новинка" ? "bg-mint text-navy" :
-                        "bg-navy text-white"
-                      }`}
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
+      {/* Countries */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Серверы по всему миру</h2>
+            <p className="text-gray-400">Выбирайте из сотен серверов в 65+ странах</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {countries.map((country, index) => (
+              <Card key={index} className="bg-dark border-gray-700 hover:border-primary/50 transition-colors cursor-pointer">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl mb-2">{country.flag}</div>
+                  <div className="font-medium text-white text-sm mb-1">{country.name}</div>
+                  <div className="text-xs text-gray-400">{country.count} серверов</div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="py-16 bg-dark/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Выберите ваш план</h2>
+            <p className="text-gray-400">Гибкие тарифы для любых потребностей</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {plans.map((plan, index) => (
+              <Card 
+                key={index} 
+                className={`relative bg-dark border-gray-700 hover:border-primary/50 transition-all duration-200 ${
+                  plan.popular ? 'border-primary ring-1 ring-primary/20' : ''
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-primary text-white">Популярный</Badge>
+                  </div>
+                )}
+                
+                <CardHeader className="text-center pb-4">
+                  <CardTitle className="text-xl text-white">{plan.name}</CardTitle>
+                  <div className="text-3xl font-bold text-primary mt-2">{plan.price}</div>
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        <span className="text-gray-300 text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <Button 
+                    className={`w-full ${
+                      plan.popular 
+                        ? 'bg-primary hover:bg-primary/90 text-white' 
+                        : 'bg-gray-700 hover:bg-gray-600 text-white'
+                    }`}
+                    onClick={() => setSelectedPlan(plan.name)}
+                  >
+                    Выбрать план
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Security Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold mb-6">
+                Безопасные покупки в любой точке мира
+              </h2>
+              <p className="text-gray-400 mb-6">
+                Покупайте в зарубежных интернет-магазинах без ограничений. 
+                Наш VPN обеспечивает надежное шифрование ваших финансовых данных 
+                и защищает от мошенников.
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Icon name="CreditCard" size={20} className="text-primary mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">Защита платежей</h4>
+                    <p className="text-sm text-gray-400">Шифрование банковских данных военного уровня</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Icon name="ShoppingCart" size={20} className="text-secondary mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">Доступ к магазинам</h4>
+                    <p className="text-sm text-gray-400">Покупки в Amazon, eBay, AliExpress и других</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Icon name="MapPin" size={20} className="text-primary mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">Любая локация</h4>
+                    <p className="text-sm text-gray-400">Меняйте виртуальное местоположение одним кликом</p>
+                  </div>
                 </div>
               </div>
-              
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <CardTitle className="text-lg text-navy group-hover:text-coral transition-colors">
-                    {product.title}
-                  </CardTitle>
-                  <div className="flex items-center gap-1 text-sm">
-                    <Icon name="Star" size={14} className="text-yellow-500 fill-current" />
-                    <span className="font-medium">{product.rating}</span>
+            </div>
+            
+            <div className="relative">
+              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl p-8">
+                <div className="bg-dark rounded-xl p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">Статус подключения</span>
+                    <Badge className="bg-secondary text-white">Защищено</Badge>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">IP адрес:</span>
+                      <span className="text-white">185.246.xxx.xxx</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Локация:</span>
+                      <span className="text-white">🇺🇸 Нью-Йорк</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Скорость:</span>
+                      <span className="text-secondary">95 Мбит/с</span>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-600">
+                    <div className="text-xs text-gray-400 text-center">
+                      🔒 Соединение зашифровано AES-256
+                    </div>
                   </div>
                 </div>
-                <Badge variant="outline" className="w-fit text-xs">
-                  {product.category}
-                </Badge>
-              </CardHeader>
-              
-              <CardContent className="pt-0">
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {product.description}
-                </p>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-navy">
-                    {product.price}
-                  </span>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="hover:bg-coral/10">
-                      <Icon name="Heart" size={16} />
-                    </Button>
-                    <Button size="sm" className="bg-coral hover:bg-coral/90 text-white">
-                      <Icon name="ShoppingCart" size={16} className="mr-1" />
-                      Купить
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <Icon name="Search" size={48} className="mx-auto text-gray-400 mb-4" />
-            <h3 className="text-xl font-semibold text-navy mb-2">Ничего не найдено</h3>
-            <p className="text-gray-600">Попробуйте изменить поисковый запрос или фильтры</p>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="bg-gradient-to-r from-coral to-turquoise py-12 mt-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
-            <div>
-              <div className="text-3xl font-bold mb-2">10,000+</div>
-              <div className="text-white/90">Товаров проанализировано</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold mb-2">98%</div>
-              <div className="text-white/90">Точность рекомендаций</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold mb-2">5,000+</div>
-              <div className="text-white/90">Довольных пользователей</div>
-            </div>
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-primary to-secondary">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-white">
+            Начните пользоваться безопасным интернетом уже сегодня
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            30-дневная гарантия возврата денег. Попробуйте без риска.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100 px-8">
+              <Icon name="Download" size={20} className="mr-2" />
+              Скачать сейчас
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              Узнать больше
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-navy text-white py-8 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-6 h-6 bg-gradient-to-r from-coral to-turquoise rounded">
-              <Icon name="Sparkles" size={16} className="text-white m-1" />
+      <footer className="bg-darker py-12 border-t border-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-6 h-6 bg-gradient-to-r from-primary to-secondary rounded">
+                  <Icon name="Shield" size={16} className="text-white m-1" />
+                </div>
+                <span className="font-bold text-white">SecureVPN</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                Ваша безопасность и приватность - наш приоритет.
+              </p>
             </div>
-            <span className="font-bold">RecommendMe</span>
+            
+            <div>
+              <h4 className="font-semibold text-white mb-3">Продукт</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>Приложения</li>
+                <li>Серверы</li>
+                <li>Безопасность</li>
+                <li>Скорость</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-white mb-3">Поддержка</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>Помощь</li>
+                <li>Контакты</li>
+                <li>FAQ</li>
+                <li>Статус серверов</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-white mb-3">Компания</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>О нас</li>
+                <li>Блог</li>
+                <li>Карьера</li>
+                <li>Пресс-центр</li>
+              </ul>
+            </div>
           </div>
-          <p className="text-gray-400">
-            © 2024 RecommendMe. Персональные рекомендации для каждого.
-          </p>
+          
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+            © 2024 SecureVPN. Все права защищены.
+          </div>
         </div>
       </footer>
     </div>
